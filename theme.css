@@ -1,4 +1,8 @@
 nav {
   display: block;
+
+}
+
+nav a {
   text-decoration: none;
 }
