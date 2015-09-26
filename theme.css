@@ -1,6 +1,5 @@
 nav {
   display: block;
-
 }
 
 nav a {
@@ -9,4 +8,8 @@ nav a {
 
 textarea {
   vertical-align: top;
+}
+
+input, label, button {
+  display: block;
 }
