@@ -19,17 +19,17 @@
       <a href="faq.html">FAQ</a>
       <a href="contact.html">CONTACT</a>
     </nav>
-    <form>
-        Name:
-        <input type="text" id="contactID"></input>
+    <form id="contactForm">
+        <label for="contactID" class="contact">Name</label>
+        <input type="text" id="contactID" class="contact"></input>
       </br>
-        Email:
-        <input type="email" id="emailID"></input>
+        <label for="emailID" class="contact">Email</label>
+        <input type="email" id="emailID" class="contact"></input>
       </br>
-        Message: </br>
-        <textarea name="message" id="messageID"></textarea>
+        <label for="messageID" class="contact">Message</label>
+        <textarea name="message" id="messageID" class="contact"></textarea>
       </br>
-      <button onclick="buttonClick()">Submit</button>
+      <button onclick="buttonClick()" class="contact">Submit</button>
     </form>
   </body>
 </html>

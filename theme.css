@@ -6,3 +6,7 @@ nav {
 nav a {
   text-decoration: none;
 }
+
+textarea {
+  vertical-align: top;
+}
