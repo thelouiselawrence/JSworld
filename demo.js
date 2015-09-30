@@ -1,35 +1,8 @@
-var DemoData = function() {
-  var canvas = document.getElementById("canvas");
-  var context = canvas.getContext("2d");
+var Data = function()  {
 
-  var window_height = window.innerHeight;
-  var window_width = window.innerWidth;
 
-  canvas.height = window_height/2;
-  canvas.width = window_width/2;
+  var default_scale = 4;
 
-  var scale = 4;
-  var pixel9 =  window_height / 4;
-  var pixel8 = 0.5 * pixel9; // size of large terrain blocks
-  var pixel7 = 0.5 * pixel8; // size of medium terrain blocks
-  var pixel6 = 0.5 * pixel7; // size of small terrain blocks
-  var pixel5 = 0.5 * pixel6; // size of large building blocks, used in buildings
-  var pixel4 = 0.5 * pixel5; // size of characters limb length and size fo small building blocks
-  var pixel3 = 0.5 * pixel4; // size of characters main unit - limb width
-  var pixel2 = 0.5 * pixel3; // size of small things, flower stalks
-  var pixel1 = 0.5 * pixel2; // smallest possible detail possible, used for facial expressesions
-
-  var rescale = function(scale) {
-    pixel9 = window_height / scale;
-    pixel8 = 0.5 * pixel9;
-    pixel7 = 0.5 * pixel8;
-    pixel6 = 0.5 * pixel7;
-    pixel5 = 0.5 * pixel6;
-    pixel4 = 0.5 * pixel5;
-    pixel3 = 0.5 * pixel4;
-    pixel2 = 0.5 * pixel3;
-    pixel1 = 0.5 * pixel2;
-  };
 
 
   var noise = function(size, smoothness, roughness, min, max) {
@@ -38,7 +11,7 @@ var DemoData = function() {
       whiteNoise[i] = Math.random();
     }
     var resultingNoise = [];
-    for (var i = 0; i < size; i++) {
+    for (var j = 0; j < size; j++) {
       var redNoise = (whiteNoise[i] + whiteNoise[i+1]) * smoothness;
       var violetNoise = (whiteNoise[i] - whiteNoise[i+1]) * roughness;
       resultingNoise.push(redNoise + violetNoise);
@@ -60,15 +33,61 @@ var DemoData = function() {
       context.stroke();
     }
   };
-
-  alert("so far, so good");
+    alert("all good so far");
+    alert("so far, so good");
 };
 
 // TODO add a random number generator that can be seeded
 
+var DRAWING = {
+  get_canvas: function(id) {
+    return document.getElementById(id);
+  },
+  get_context: function(canvas) {
+    return canvas.getContext("2d");
+  },
+  rescale: function(scale, altitude) {
+    var pixel9 =  altitude / scale;
+    var pixel8 = 0.5 * pixel9; // size of large terrain blocks
+    var pixel7 = 0.5 * pixel8; // size of medium terrain blocks
+    var pixel6 = 0.5 * pixel7; // size of small terrain blocks
+    var pixel5 = 0.5 * pixel6; // size of large building blocks, used in buildings
+    var pixel4 = 0.5 * pixel5; // size of characters limb length and size fo small building blocks
+    var pixel3 = 0.5 * pixel4; // size of characters main unit - limb width
+    var pixel2 = 0.5 * pixel3; // size of small things, flower stalks
+    var pixel1 = 0.5 * pixel2; // smallest possible detail possible, used for facial expressesions
+    return [pixel1, pixel2, pixel3, pixel4, pixel5, pixel6, pixel7, pixel8, pixel9];
+  },
+  resize: function(id, scale) {
+    var window_height=window.innerHeight;
+    var window_width=window.innerWidth;
+
+
+
+    var canvas = this.get_canvas(id);
+
+    canvas.height = window_height/2;
+    canvas.width = window_width/2;
+    this.rescale(scale, window_height);
+
+  },
+  line: function(points) {
+
+  },
+  outline: function(points) {
+
+  },
+  fill: function(points) {
+
+  }
+};
+
+
 function loadDemo() {
   alert("init");
-  DemoData();
+  //DemoData();
   //d.drawLine(120, 120, 240, 480, 360, 360);
+  DRAWING.resize( "c", 4);
+
   alert("finis");
 }
