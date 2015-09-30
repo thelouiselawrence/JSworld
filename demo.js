@@ -34,16 +34,15 @@ var Data = function()  {
     }
   };
     alert("all good so far");
-    alert("so far, so good");
 };
 
 // TODO add a random number generator that can be seeded
 
 var DRAWING = {
-  get_canvas: function(id) {
+  canvas: function(id) {
     return document.getElementById(id);
   },
-  get_context: function(canvas) {
+  context: function(canvas) {
     return canvas.getContext("2d");
   },
   rescale: function(scale, altitude) {
@@ -61,33 +60,62 @@ var DRAWING = {
   resize: function(id, scale) {
     var window_height=window.innerHeight;
     var window_width=window.innerWidth;
-
-
-
-    var canvas = this.get_canvas(id);
-
+    var canvas = this.canvas(id);
     canvas.height = window_height/2;
     canvas.width = window_width/2;
     this.rescale(scale, window_height);
-
   },
-  line: function(points) {
-
+  noise: function(size, smoothness, roughness, min, max) {
+    var whiteNoise = new Array(size + 1);
+    for (var i = 0; i < whiteNoise.length; i++) {
+      whiteNoise[i] = Math.random();
+    }
+    var resultingNoise = [];
+    for (var j = 0; j < size; j++) {
+      var redNoise = (whiteNoise[i] + whiteNoise[i+1]) * smoothness;
+      var violetNoise = (whiteNoise[i] - whiteNoise[i+1]) * roughness;
+      resultingNoise.push(redNoise + violetNoise);
+    }
+    return resultingNoise;
   },
-  outline: function(points) {
-
-  },
-  fill: function(points) {
-
+  lines: function(x, y,  id) {
+    var size = x;
+    if (y < x) {
+      size = y;
+    }
+    var c = this.context(this.canvas(id));
+    for (var i = 1; i < size; i++) {
+      c.moveTo(x[i-1], y[i-1]);
+      c.lineTo(x[x], y[x]);
+      c.stroke();
+    }
   }
 };
 
-
 function loadDemo() {
   alert("init");
+
   //DemoData();
   //d.drawLine(120, 120, 240, 480, 360, 360);
   DRAWING.resize( "c", 4);
+
+// TODO fix drawing
+  var noise = DRAWING.noise(9, 0.6, 0.4, 0, 1);
+  var heights = [];
+  for (var j = 0; j < noise.size; j++) {
+    heights.push(noise[j] * 100);
+  }
+
+  var increments = [];
+
+    alert("so far, so good");
+    var increment = 0;
+  for (var i = 0; i < noise.size; i++) {
+    increment = increment + window_height/4;
+    increments.push(increment);
+  }
+
+  DRAWING.lines(increments, heights, "c");
 
   alert("finis");
 }
