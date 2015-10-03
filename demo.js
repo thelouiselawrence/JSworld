@@ -8,13 +8,14 @@ var Data = function()  {
   var noise = function(size, smoothness, roughness, min, max) {
     var whiteNoise = new Array(size + 1);
     for (var i = 0; i < whiteNoise.length; i++) {
-      whiteNoise[i] = Math.random();
+      var value = Math.random();
+      whiteNoise[i] = Math.round(value);
     }
     var resultingNoise = [];
     for (var j = 0; j < size; j++) {
       var redNoise = (whiteNoise[i] + whiteNoise[i+1]) * smoothness;
       var violetNoise = (whiteNoise[i] - whiteNoise[i+1]) * roughness;
-      resultingNoise.push(redNoise + violetNoise);
+      resultingNoise.push(Math.round(redNoise + violetNoise));
     }
     return resultingNoise;
   };
@@ -38,8 +39,20 @@ var Data = function()  {
 
 // TODO add a random number generator that can be seeded
 
-var DIMENSIONS = function(id) {
-
+var Dimensions = function(id) {
+  var height = function(id) {
+    var element = document.getElementById(id);
+    return element.height;
+  };
+  var width = function(id) {
+    var element = document.getElementById(id);
+    return element.width;
+  };
+  var resize = function(h, w, id) {
+    var element = document.getElementById(id);
+    element.height = h;
+    element.width = w;
+  };
 };
 
 var DRAWING = {
@@ -110,6 +123,7 @@ function drawNoise(id, size, smoothness, roughness, min, max, frequency, scale) 
 }
 
 function refresh() {
+  // needs to get values from inputs
   drawNoise("c",12, 0.6, 0.4, 0, 1, 10, 250);
 }
 
