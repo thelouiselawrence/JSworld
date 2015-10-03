@@ -118,10 +118,14 @@ function drawNoise(id, size, smoothness, roughness, min, max, frequency, scale) 
   for (var i = 1; i < noise.length; i++) {
     x = i * increment;
     y = (noise[i] * scale);
-    
+
     DRAWING.lineSegment(x, (noise[i-1] * scale), x, y, id);
     DRAWING.lineSegment(x, y, x + increment, y, id);
   }
+}
+
+function createNewDemo() {
+  alert("working");
 }
 
 function refresh() {

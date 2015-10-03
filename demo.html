@@ -17,11 +17,40 @@
     </nav>
     <canvas id="c"></canvas>
     <button onclick="refresh()">REFRESH</button>
+    <form>
+      <label for="viewSlider">Number of Views</label>
+      <input id="viewSlider" type="range" min="1" max="3" step="1" value="2">
+    </br>
+      <label for="sizeSlider">Size</label>
+      <input id="sizeSlider" type="range" min="1" max="5" step="1" value="3">
+    </br>
+      <label for="smoothSlider">Smoothness</label>
+      <input id="smoothSlider" type="range" min="0" max="2" step="0.1" value="1">
+    </br>
+      <label for="roughSlider">Roughness</label>
+      <input id="roughSlider" type="range" min="0" max="2" step="0.1" value="1">
+    </br>
+      <label for="minSlider">Minimum</label>
+      <input id="minSlider" type="range" min="-1" max="1" step="0.1" value="0">
+    </br>
+      <label for="maxSlider">Maximum</label>
+      <input id="maxSlider" type="range" min="0" max="2" step="0.1" value="1">
+    </br>
+      <label for="freqSlider">Frequency</label>
+      <input id="freqSlider" type="range" min="0" max="10" step="1" value="5">
+    </br>
+      <label for="scaleSlider">Scale</label>
+      <input id="scaleSlider" type="range" min="1" max="10" step="1" value="5">
+    </br>
+    <button id="createButton" onclick="createNewDemo()">CREATE</button>
+    </form>
+
     <div>
 
 
 
     </div>
+
 
     <p>
       Day Night slider, which needs type="range" min="10" max="50" step="5" value="30"
