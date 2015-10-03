@@ -1,4 +1,4 @@
-var Data = function()  {
+var Scenario = function()  {
 
 
   var default_scale = 4;
@@ -21,6 +21,7 @@ var Data = function()  {
   };
 
   var noise1 = noise(9, 0.6, 0.4, 0, 1);
+
 
 
   var drawLine = function(points) {
@@ -74,13 +75,27 @@ var DRAWING = {
     var pixel1 = 0.5 * pixel2; // smallest possible detail possible, used for facial expressesions
     return [pixel1, pixel2, pixel3, pixel4, pixel5, pixel6, pixel7, pixel8, pixel9];
   },
-  resize: function(id, scale) {
+  resize: function(id, views) {
     var window_height=window.innerHeight;
     var window_width=window.innerWidth;
     var canvas = this.canvas(id);
-    canvas.height = window_height/2;
-    canvas.width = window_width/2;
-    this.rescale(scale, window_height);
+    if (window_width >window_height) {
+      var dimension = window_height/2;
+      canvas.height = dimension;
+      var possibleViews = window_width/dimension;
+      if (possibleViews > views) {
+        canvas.width = dimension * views;
+      } else {
+        canvas.width = dimension * possibleViews;
+      }
+    } else {
+      var dimension = window_width/2;
+      canvas.height = dimension;
+      canvas.width = dimension;
+    }
+    // canvas.height = window_height/2;
+    // canvas.width = window_width/2;
+    //this.rescale(scale, window_height);
   },
   noise: function(size, smoothness, roughness, min, max) {
     var whiteNoise = new Array(size + 1);
@@ -89,9 +104,9 @@ var DRAWING = {
     }
      var resultingNoise = [];
      for (var j = 1; j < size; j++) {
-       var redNoise = (whiteNoise[j] + whiteNoise[j-1]) * smoothness;
+      var redNoise = (whiteNoise[j] + whiteNoise[j-1]) * smoothness;
       var violetNoise = (whiteNoise[j] - whiteNoise[j-1]) * roughness;
-       resultingNoise.push((redNoise + violetNoise + whiteNoise[j])/3);
+      resultingNoise.push((redNoise + violetNoise + whiteNoise[j])/3);
      }
      return resultingNoise;
   },
@@ -134,8 +149,7 @@ function refresh() {
 }
 
 function loadDemo() {
-  DRAWING.resize( "c", 4);
-// TODO fix drawing
+  DRAWING.resize( "c", 1);
+  // drawNoise("c",12, 0.6, 0.4, 0, 1, 10, 250);
 
-  drawNoise("c",12, 0.6, 0.4, 0, 1, 10, 250);
 }
