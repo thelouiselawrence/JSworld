@@ -78,17 +78,12 @@ var DRAWING = {
     }
     return resultingNoise;
   },
-  lines: function(x, y,  id) {
-    var size = x;
-    if (y < x) {
-      size = y;
-    }
-    var c = this.context(this.canvas(id));
-    for (var i = 1; i < size; i++) {
-      c.moveTo(x[i-1], y[i-1]);
-      c.lineTo(x[x], y[x]);
-      c.stroke();
-    }
+  lineSegment: function (x0, y0, x1, y1, id) {
+    var can = document.getElementById(id);
+    var c = can.getContext("2d");
+    c.moveTo(x0, y0);
+    c.lineTo(x1, y1);
+    c.stroke();
   }
 };
 
@@ -108,7 +103,7 @@ function loadDemo() {
 
   var increments = [];
 
-    alert("so far, so good");
+    //alert("so far, so good");
     var increment = 0;
   for (var i = 0; i < noise.size; i++) {
     increment = increment + window_height/4;
@@ -116,15 +111,17 @@ function loadDemo() {
     increments.push(noise[i]);
   }
 
+  DRAWING.lineSegment(100, 600, 300, 200, "c");
+
   //DRAWING.lines(increments, heights, "c");
 
 //DRAWING.lines(240, 240, 480, 480);
 
-var can = document.getElementById('c');
-var c = can.getContext("2d");
-c.moveTo(0,0);
-c.lineTo(500, 500);
-c.stroke();
+// var can = document.getElementById('c');
+// var c = can.getContext("2d");
+// c.moveTo(0,0);
+// c.lineTo(500, 500);
+// c.stroke();
 
   alert("finis");
 }
