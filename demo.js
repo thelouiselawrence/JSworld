@@ -79,36 +79,49 @@ var DRAWING = {
     var window_height=window.innerHeight;
     var window_width=window.innerWidth;
     var canvas = this.canvas(id);
-    if (window_width >window_height) {
+    if (window_width > window_height) {
       var dimension = window_height/2;
       canvas.height = dimension;
-      var possibleViews = window_width/dimension;
+      var possibleViews = window_width/dimension - 1;
       if (possibleViews > views) {
         canvas.width = dimension * views;
+        document.getElementById("viewSlider").value = views;
       } else {
         canvas.width = dimension * possibleViews;
+        document.getElementById("viewSlider").value = possibleViews;
       }
     } else {
-      var dimension = window_width/2;
+      dimension = window_width/2;
       canvas.height = dimension;
       canvas.width = dimension;
     }
+
     // canvas.height = window_height/2;
     // canvas.width = window_width/2;
     //this.rescale(scale, window_height);
   },
-  noise: function(size, smoothness, roughness, min, max) {
+  noise: function(size, min, max) {
     var whiteNoise = new Array(size + 1);
     for (var i = 0; i < whiteNoise.length; i++) {
       whiteNoise[i] = Math.random();
     }
-     var resultingNoise = [];
-     for (var j = 1; j < size; j++) {
-      var redNoise = (whiteNoise[j] + whiteNoise[j-1]) * smoothness;
-      var violetNoise = (whiteNoise[j] - whiteNoise[j-1]) * roughness;
-      resultingNoise.push((redNoise + violetNoise + whiteNoise[j])/3);
-     }
-     return resultingNoise;
+    return whiteNoise;
+  },
+  smooth: function(noise, value) {
+    var resultingNoise = [];
+    for (var i = 1; i < noise.length; i++) {
+      var redNoise = (whiteNoise[j] + whiteNoise[j-1]) * value;
+      resultingNoise.push(redNoise);
+    }
+    return resultingNoise;
+  },
+  rough: function(noise, value) {
+    var resultingNoise = [];
+    for (var i = 1; i < noise.length; i++) {
+      var violetNoise = (whiteNoise[j] - whiteNoise[j-1]) * value;
+      resultingNoise.push(violetNoise);
+    }
+    return resultingNoise;
   },
   lineSegment: function (x0, y0, x1, y1, id) {
     var can = document.getElementById(id);
@@ -121,7 +134,7 @@ var DRAWING = {
 
 function drawNoise(id, size, smoothness, roughness, min, max, frequency, scale) {
   DRAWING.resize(id, scale); // used for clearing the screen
-  var noise = DRAWING.noise(size, smoothness, roughness, min, max);
+  var noise = DRAWING.noise(size, min, max);
 
   var increment = window.innerHeight/frequency; // equivalent of a frequency value
   var altitude = (noise[i] * scale);
@@ -139,17 +152,49 @@ function drawNoise(id, size, smoothness, roughness, min, max, frequency, scale) 
   }
 }
 
+function sketchDemo() {
+  var id = "c";
+  var views = document.getElementById("viewSlider").value;
+  DRAWING.resize(id, views);
+  var size = Math.pow(document.getElementById("sizeSlider").value * 2, 2);
+  var smoothness = document.getElementById("smoothSlider").value;
+  var roughness = document.getElementById("roughSlider").value;
+  var min = document.getElementById("minSlider").value;
+  var max = document.getElementById("maxSlider").value;
+  var frequency = document.getElementById("freqSlider").value;
+  var scale = document.getElementById(id).height/document.getElementById("scaleSlider").value; // increment value
+  // drawNoise(id, size, smoothness, roughness, min, max, frequency, scale);
+  var noise = DRAWING.noise(size, min, max);
+  var resultingNoise =  DRAWING.smooth(noise, smoothness);
+  resultingNoise = DRAWING.rough(noise, roughness);
+  var x = scale;
+  var y = resultingNoise[0] * scale;
+
+  DRAWING.lineSegment(0, y, x, y, id);
+  for (var i = 1; i < noise.length; i++) {
+    x = i * increment;
+    y = (noise[i] * scale);
+
+    DRAWING.lineSegment(x, (noise[i-1] * scale), x, y, id);
+    DRAWING.lineSegment(x, y, x + scale, y, id);
+  }
+
+}
+
 function createNewDemo() {
   alert("working");
 }
 
 function refresh() {
   // needs to get values from inputs
-  drawNoise("c",12, 0.6, 0.4, 0, 1, 10, 250);
+  drawNoise("c", 20, 1, 0, 0, 1, 10, 200);
 }
 
 function loadDemo() {
   DRAWING.resize( "c", 1);
   // drawNoise("c",12, 0.6, 0.4, 0, 1, 10, 250);
+
+  // TODO make a NOISE object
+  sketchDemo();
 
 }
