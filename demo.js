@@ -113,9 +113,18 @@ function loadDemo() {
   for (var i = 0; i < noise.size; i++) {
     increment = increment + window_height/4;
     increments.push(increment);
+    increments.push(noise[i]);
   }
 
-  DRAWING.lines(increments, heights, "c");
+  //DRAWING.lines(increments, heights, "c");
+
+//DRAWING.lines(240, 240, 480, 480);
+
+var can = document.getElementById('c');
+var c = can.getContext("2d");
+c.moveTo(0,0);
+c.lineTo(500, 500);
+c.stroke();
 
   alert("finis");
 }
