@@ -74,7 +74,6 @@ var DRAWING = {
     for (var i = 0; i < whiteNoise.length; i++) {
       whiteNoise[i] = Math.random();
     }
-    //return whiteNoise;
      var resultingNoise = [];
      for (var j = 1; j < size; j++) {
        var redNoise = (whiteNoise[j] + whiteNoise[j-1]) * smoothness;
@@ -92,60 +91,31 @@ var DRAWING = {
   }
 };
 
-function loadDemo() {
-  //alert("init");
+function drawNoise(id, size, smoothness, roughness, min, max, frequency, scale) {
+  DRAWING.resize(id, scale); // used for clearing the screen
+  var noise = DRAWING.noise(size, smoothness, roughness, min, max);
 
-  //DemoData();
-  //d.drawLine(120, 120, 240, 480, 360, 360);
-  DRAWING.resize( "c", 4);
-  DRAWING.lineSegment(0,50, 0, 50, "c");
-// TODO fix drawing
-  var noise = DRAWING.noise(12, 0.6, 0.4, 0, 1);
-  // for (var j = 0; j < noise.length; j++) {
-  //   alert("value["+j+"] = "+noise[j]);
-  // }
-  var vScale = 250;
-  var hScale = 10;
+  var increment = window.innerHeight/frequency; // equivalent of a frequency value
+  var altitude = (noise[i] * scale);
 
-  var increment = window.innerHeight/hScale; // equivalent of a frequency value
-  var altitude = (noise[i] * vScale);
-//  DRAWING.lineSegment(0, noise[i] * vScale, increment, noise[i] * vScale, "c");
-  var y = (noise[0] * vScale);
+  var y = (noise[0] * scale);
   var x =  increment;
-  DRAWING.lineSegment(0, y, x, y, "c");
+  DRAWING.lineSegment(0, y, x, y, id);
   for (var i = 1; i < noise.length; i++) {
-    y = (noise[i] * vScale);
+    y = (noise[i] * scale);
     x = i * increment;
-    DRAWING.lineSegment(x, (noise[i-1] * vScale), x, y, "c");
-    DRAWING.lineSegment(x, y, x + increment, y, "c");
+    DRAWING.lineSegment(x, (noise[i-1] * scale), x, y, id);
+    DRAWING.lineSegment(x, y, x + increment, y, id);
   }
+}
 
-  // var heights = [];
-  // for (var j = 0; j < noise.size; j++) {
-  //   heights.push(noise[j] * 100);
-  // }
-  //
-  // var increments = [];
-  //
-  //   //alert("so far, so good");
-  //   var increment = 0;
-  // for (var i = 0; i < noise.size; i++) {
-  //   increment = increment + window_height/4;
-  //   increments.push(increment);
-  //   increments.push(noise[i]);
-  // }
+function refresh() {
+  drawNoise("c",12, 0.6, 0.4, 0, 1, 10, 250);
+}
 
-  //DRAWING.lineSegment(100, 600, 300, 200, "c");
+function loadDemo() {
+  DRAWING.resize( "c", 4);
+// TODO fix drawing
 
-  //DRAWING.lines(increments, heights, "c");
-
-//DRAWING.lines(240, 240, 480, 480);
-
-// var can = document.getElementById('c');
-// var c = can.getContext("2d");
-// c.moveTo(0,0);
-// c.lineTo(500, 500);
-// c.stroke();
-
-  //alert("finis");
+  drawNoise("c",12, 0.6, 0.4, 0, 1, 10, 250);
 }
