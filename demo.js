@@ -91,7 +91,7 @@ var DRAWING = {
      for (var j = 1; j < size; j++) {
        var redNoise = (whiteNoise[j] + whiteNoise[j-1]) * smoothness;
       var violetNoise = (whiteNoise[j] - whiteNoise[j-1]) * roughness;
-       resultingNoise.push(redNoise + violetNoise);
+       resultingNoise.push((redNoise + violetNoise + whiteNoise[j])/3);
      }
      return resultingNoise;
   },
@@ -111,12 +111,14 @@ function drawNoise(id, size, smoothness, roughness, min, max, frequency, scale) 
   var increment = window.innerHeight/frequency; // equivalent of a frequency value
   var altitude = (noise[i] * scale);
 
-  var y = (noise[0] * scale);
   var x =  increment;
+  var y = (noise[0] * scale);
+
   DRAWING.lineSegment(0, y, x, y, id);
   for (var i = 1; i < noise.length; i++) {
-    y = (noise[i] * scale);
     x = i * increment;
+    y = (noise[i] * scale);
+    
     DRAWING.lineSegment(x, (noise[i-1] * scale), x, y, id);
     DRAWING.lineSegment(x, y, x + increment, y, id);
   }

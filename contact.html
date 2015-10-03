@@ -4,7 +4,22 @@
     <link rel="stylesheet" type="text/css" href="theme.css">
     <script>
       function buttonClick() {
-        alert("submitted");
+        var name = document.getElementById("contactID").value;
+        var email = document.getElementById("emailID").value;
+        var message = document.getElementById("messageID").value;
+        if (name == "" || isNaN(name)) {
+          alert("Need name!");
+        } else if (email == "" || isNan(email)) {
+          alert("Need email!");
+        } else if (message == "" || isNan(message)) {
+          alert("Need message!");
+        } else {
+          alert(name+"\n"+email+"\n"+message); // TODO fix!!
+        }
+        // TODO work out why assigning values to the textfields doesn't override resetting and clearing the form
+        // document.getElementById("contactID").value = name;
+        // document.getElementById("emailID").value = email;
+        // document.getElementById("messageID").value = message;
       }
     </script>
   </head>
