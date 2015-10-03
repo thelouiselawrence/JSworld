@@ -93,27 +93,30 @@ var DRAWING = {
 };
 
 function loadDemo() {
-  alert("init");
+  //alert("init");
 
   //DemoData();
   //d.drawLine(120, 120, 240, 480, 360, 360);
   DRAWING.resize( "c", 4);
   DRAWING.lineSegment(0,50, 0, 50, "c");
 // TODO fix drawing
-  var noise = DRAWING.noise(11, 0.6, 0.4, 0, 1);
+  var noise = DRAWING.noise(12, 0.6, 0.4, 0, 1);
   // for (var j = 0; j < noise.length; j++) {
   //   alert("value["+j+"] = "+noise[j]);
   // }
   var vScale = 250;
   var hScale = 10;
 
-  var increment = window.innerHeight/hScale;
+  var increment = window.innerHeight/hScale; // equivalent of a frequency value
   var altitude = (noise[i] * vScale);
 //  DRAWING.lineSegment(0, noise[i] * vScale, increment, noise[i] * vScale, "c");
-
-  for (var i = 0; i < noise.length; i++) {
-    var y = (noise[i] * vScale);
-    var x = i * increment;
+  var y = (noise[0] * vScale);
+  var x =  increment;
+  DRAWING.lineSegment(0, y, x, y, "c");
+  for (var i = 1; i < noise.length; i++) {
+    y = (noise[i] * vScale);
+    x = i * increment;
+    DRAWING.lineSegment(x, (noise[i-1] * vScale), x, y, "c");
     DRAWING.lineSegment(x, y, x + increment, y, "c");
   }
 
@@ -144,5 +147,5 @@ function loadDemo() {
 // c.lineTo(500, 500);
 // c.stroke();
 
-  alert("finis");
+  //alert("finis");
 }
