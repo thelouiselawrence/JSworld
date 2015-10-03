@@ -38,6 +38,10 @@ var Data = function()  {
 
 // TODO add a random number generator that can be seeded
 
+var DIMENSIONS = function(id) {
+
+};
+
 var DRAWING = {
   canvas: function(id) {
     return document.getElementById(id);
@@ -70,13 +74,14 @@ var DRAWING = {
     for (var i = 0; i < whiteNoise.length; i++) {
       whiteNoise[i] = Math.random();
     }
-    var resultingNoise = [];
-    for (var j = 0; j < size; j++) {
-      var redNoise = (whiteNoise[i] + whiteNoise[i+1]) * smoothness;
-      var violetNoise = (whiteNoise[i] - whiteNoise[i+1]) * roughness;
-      resultingNoise.push(redNoise + violetNoise);
-    }
-    return resultingNoise;
+    //return whiteNoise;
+     var resultingNoise = [];
+     for (var j = 1; j < size; j++) {
+       var redNoise = (whiteNoise[j] + whiteNoise[j-1]) * smoothness;
+      var violetNoise = (whiteNoise[j] - whiteNoise[j-1]) * roughness;
+       resultingNoise.push(redNoise + violetNoise);
+     }
+     return resultingNoise;
   },
   lineSegment: function (x0, y0, x1, y1, id) {
     var can = document.getElementById(id);
@@ -93,25 +98,41 @@ function loadDemo() {
   //DemoData();
   //d.drawLine(120, 120, 240, 480, 360, 360);
   DRAWING.resize( "c", 4);
-
+  DRAWING.lineSegment(0,50, 0, 50, "c");
 // TODO fix drawing
-  var noise = DRAWING.noise(9, 0.6, 0.4, 0, 1);
-  var heights = [];
-  for (var j = 0; j < noise.size; j++) {
-    heights.push(noise[j] * 100);
+  var noise = DRAWING.noise(11, 0.6, 0.4, 0, 1);
+  // for (var j = 0; j < noise.length; j++) {
+  //   alert("value["+j+"] = "+noise[j]);
+  // }
+  var vScale = 250;
+  var hScale = 10;
+
+  var increment = window.innerHeight/hScale;
+  var altitude = (noise[i] * vScale);
+//  DRAWING.lineSegment(0, noise[i] * vScale, increment, noise[i] * vScale, "c");
+
+  for (var i = 0; i < noise.length; i++) {
+    var y = (noise[i] * vScale);
+    var x = i * increment;
+    DRAWING.lineSegment(x, y, x + increment, y, "c");
   }
 
-  var increments = [];
+  // var heights = [];
+  // for (var j = 0; j < noise.size; j++) {
+  //   heights.push(noise[j] * 100);
+  // }
+  //
+  // var increments = [];
+  //
+  //   //alert("so far, so good");
+  //   var increment = 0;
+  // for (var i = 0; i < noise.size; i++) {
+  //   increment = increment + window_height/4;
+  //   increments.push(increment);
+  //   increments.push(noise[i]);
+  // }
 
-    //alert("so far, so good");
-    var increment = 0;
-  for (var i = 0; i < noise.size; i++) {
-    increment = increment + window_height/4;
-    increments.push(increment);
-    increments.push(noise[i]);
-  }
-
-  DRAWING.lineSegment(100, 600, 300, 200, "c");
+  //DRAWING.lineSegment(100, 600, 300, 200, "c");
 
   //DRAWING.lines(increments, heights, "c");
 

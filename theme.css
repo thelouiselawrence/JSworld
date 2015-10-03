@@ -9,3 +9,7 @@ nav a {
 .contact {
   display: block;
 }
+
+canvas {
+  background-color: cyan;
+}
