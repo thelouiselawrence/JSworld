@@ -16,7 +16,8 @@
         } else {
           alert(name+"\n"+email+"\n"+message); // TODO fix!!
         }
-        // TODO work out why assigning values to the textfields doesn't override resetting and clearing the form
+        // TODO required attribute
+        // TODO work out why assigning values to the textfields doesn't override resetting and clearing the formre
         // document.getElementById("contactID").value = name;
         // document.getElementById("emailID").value = email;
         // document.getElementById("messageID").value = message;
@@ -36,13 +37,13 @@
     </nav>
     <form id="contactForm">
         <label for="contactID" class="contact">Name</label>
-        <input type="text" id="contactID" class="contact"></input>
+        <input type="text" id="contactID" class="contact" required></input>
 
         <label for="emailID" class="contact">Email</label>
-        <input type="email" id="emailID" class="contact"></input>
+        <input type="email" id="emailID" class="contact" required></input>
 
         <label for="messageID" class="contact">Message</label>
-        <textarea name="message" id="messageID" class="contact"></textarea>
+        <textarea name="message" id="messageID" class="contact" required></textarea>
 
         <button onclick="buttonClick()" class="contact">Submit</button>
     </form>
