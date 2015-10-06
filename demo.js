@@ -1,3 +1,6 @@
+
+
+
 var Scenario = function()  {
 
 
@@ -56,6 +59,15 @@ var Dimensions = function(id) {
   };
 };
 
+// minature library for generating noise
+var NOISE =  {
+  whiteNoise: function(size, minimum, range) {
+    var noise = [];
+
+  }
+}
+
+// miniature library for drawing to the canvas
 var DRAWING = {
   canvas: function(id) {
     return document.getElementById(id);
@@ -82,7 +94,7 @@ var DRAWING = {
     if (window_width > window_height) {
       var dimension = window_height/2;
       canvas.height = dimension;
-      var possibleViews = window_width/dimension - 1;
+      var possibleViews = (window_width/dimension)-1;
       if (possibleViews > views) {
         canvas.width = dimension * views;
         document.getElementById("viewSlider").value = views;
@@ -187,7 +199,12 @@ function createNewDemo() {
 
 function refresh() {
   // needs to get values from inputs
+
   drawNoise("c", 20, 1, 0, 0, 1, 10, 200);
+}
+
+function init() {
+
 }
 
 function loadDemo() {

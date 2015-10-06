@@ -2,8 +2,91 @@
 <html>
   <head>
     <link rel="stylesheet" type="text/css" href="theme.css">
+    <script>
+      var NOISE = {
+        whiteNoise: function(size, midLine, range) {
+          var noise = [];
+          for (var i = 0; i < size; i++) {
+            noise.push(Math.round(Math.random() * range) + midLine);
+          }
+          return noise;
+        },
+        redNoise: function(size, midLine, range) {
+          var whiteNoise = this.whiteNoise(size + 1, midLine, range);
+          var redNoise = [];
+          for (var i = 0; i < size; i++) {
+            redNoise.push( Math.round( (whiteNoise[i] + whiteNoise[i+1]) * 0.5) );
+          }
+          return redNoise;
+        },
+        violetNoise: function(size, midLine, range) {
+          var whiteNoise = this.whiteNoise(size + 1, midLine, range);
+          var violetNoise = [];
+          for (var i = 0; i < size; i++) {
+            violetNoise.push( Math.round( (whiteNoise[i] - whiteNoise[i+1]) * 0.5) );
+          }
+          return whiteNoise;
+        },
+        smoother: function(noise) {
+          var smooth = [];
+          for (var i = 0; i < noise.length-1; i++) {
+            smooth.push( Math.round( (noise[i] + noise[i+1]) * 0.5) );
+          }
+          return smooth;
+        },
+        rougher: function(noise) {
+          var rough = [];
+          for (var i = 0; i < noise.length; i++) {
+            rough.push( Math.round( (noise[i] - noise[i+1]) * 0.5) );
+          }
+          return rough;
+        }
+      };
+
+      var DRAWING = {
+        resizeCanvas: function(views) {
+          var window_height=window.innerHeight;
+          var window_width=window.innerWidth;
+          var canvas = document.getElementById('canvas');
+          if (window_width > window_height) {
+            var dimension = window_height/2;
+            canvas.height = dimension;
+            canvas.width = dimension;
+            var possibleViews = (window_width/dimension)-1;
+            if (possibleViews > views) {
+              canvas.width = dimension * views;
+              document.getElementById("viewSlider").value = views;
+            } else {
+              canvas.width = dimension * possibleViews;
+              document.getElementById("viewSlider").value = possibleViews;
+            }
+          } else {
+            dimension = window_width/2;
+            canvas.height = dimension;
+            canvas.width = dimension;
+          }
+        },
+        lineSegment: function (x0, y0, x1, y1, id) {
+          var can = document.getElementById(id);
+          var c = can.getContext("2d");
+          c.moveTo(x0, y0);
+          c.lineTo(x1, y1);
+          c.stroke();
+        }
+      };
+
+      function resize() {
+        DRAWING.resizeCanvas(4);
+      }
+
+      function previewNoise() {
+        var canvas = document.getElementById("canvas");
+        var context = canvas.getContext("2d");
+      }
+
+    </script>
   </head>
-  <body>
+  <body onload="resize()">
     <h1>
       About
     </h1>
@@ -14,5 +97,13 @@
       <a href="faq.html">FAQ</a>
       <a href="contact.html">CONTACT</a>
     </nav>
+    <canvas id="canvas"></canvas>
+    <div>
+    <input id="noiseColourSlider" type="range" min="-1" max="1" step="1" value="0">
+  </br>
+    <input id="midValueSlider" type="range" min="-10" max="10" step="1" value="0">
+  </br>
+    <input id="altitutudeSlider" type="range" min="-10" max="10" step="1" value="0">
+  </div>
   </body>
 </html>
